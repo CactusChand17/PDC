@@ -21,9 +21,7 @@ public abstract class Player {
     //Player and bot features
     
     //name bot and Player
-    private String name;
-    //age
-    private int age;
+
     //rank
     private char rank = 'D';
     //health bot and Player
@@ -97,33 +95,7 @@ public abstract class Player {
         this.damage = damage;
     }
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return the age
-     */
-    public int getAge() {
-        return age;
-    }
-
-    /**
-     * @param age the age to set
-     */
-    public void setAge(int age) {
-        this.age = age;
-    }
 
     /**
      * @return the type
