@@ -51,6 +51,11 @@ public class MainMenu extends javax.swing.JFrame {
 
         Training.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         Training.setText("Training");
+        Training.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TrainingActionPerformed(evt);
+            }
+        });
 
         CheckStats.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         CheckStats.setText("Stats");
@@ -102,12 +107,16 @@ public class MainMenu extends javax.swing.JFrame {
     }//GEN-LAST:event_QuitActionPerformed
 
     private void FightingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FightingActionPerformed
-        // TODO add your handling code here:
+        Object source = evt.getSource();
     }//GEN-LAST:event_FightingActionPerformed
 
     private void CheckStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckStatsActionPerformed
-        // TODO add your handling code here:
+        Object source = evt.getSource();
     }//GEN-LAST:event_CheckStatsActionPerformed
+
+    private void TrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TrainingActionPerformed
+        Object source = evt.getSource();
+    }//GEN-LAST:event_TrainingActionPerformed
 
     /**
      * @param args the command line arguments

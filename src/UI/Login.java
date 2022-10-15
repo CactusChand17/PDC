@@ -141,7 +141,7 @@ public class Login extends javax.swing.JFrame {
                 //start connect with database
 
 
-                MainForm mainform = new MainForm();
+                MainMenu mainform = new MainMenu();
                 mainform.setVisible(true);
                 mainform.pack();
                 mainform.setLocationRelativeTo(null);
