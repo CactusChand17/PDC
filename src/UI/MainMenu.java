@@ -108,14 +108,39 @@ public class MainMenu extends javax.swing.JFrame {
 
     private void FightingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FightingActionPerformed
         Object source = evt.getSource();
+         if(source == Fighting){
+                Fighting fightingMenu = new Fighting();
+                fightingMenu.setVisible(true);
+                fightingMenu.pack();
+                fightingMenu.setLocationRelativeTo(null);
+
+                this.hide();
+        }
     }//GEN-LAST:event_FightingActionPerformed
 
     private void CheckStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckStatsActionPerformed
         Object source = evt.getSource();
+         if(source == CheckStats){
+                Stats statsMenu = new Stats();
+                statsMenu.setVisible(true);
+                statsMenu.pack();
+                statsMenu.setLocationRelativeTo(null);
+
+                this.hide();
+        }
     }//GEN-LAST:event_CheckStatsActionPerformed
 
     private void TrainingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TrainingActionPerformed
         Object source = evt.getSource();
+        
+        if(source == Training){
+                Training trainMenu = new Training();
+                trainMenu.setVisible(true);
+                trainMenu.pack();
+                trainMenu.setLocationRelativeTo(null);
+
+                this.hide();
+        }
     }//GEN-LAST:event_TrainingActionPerformed
 
     /**

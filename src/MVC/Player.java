@@ -32,7 +32,8 @@ public abstract class Player {
     private int damage;
     //items for player
     ArrayList<String> items = new ArrayList();
-    
+    //name
+    private String name;
     
     /**
      * @return the rank
@@ -93,6 +94,20 @@ public abstract class Player {
      */
     public void setDamage(int damage) {
         this.damage = damage;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
     }
 
 
