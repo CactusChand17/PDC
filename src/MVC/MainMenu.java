@@ -2,14 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package UI;
+package MVC;
 
 /**
  *
  * @author manu2
  */
 public class MainMenu extends javax.swing.JFrame {
-
+    private Character character = new Character();
     /**
      * Creates new form MainForm
      */
@@ -109,10 +109,10 @@ public class MainMenu extends javax.swing.JFrame {
     private void FightingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FightingActionPerformed
         Object source = evt.getSource();
          if(source == Fighting){
-                Fighting fightingMenu = new Fighting();
-                fightingMenu.setVisible(true);
-                fightingMenu.pack();
-                fightingMenu.setLocationRelativeTo(null);
+                SelectionMenu selectionMenu = new SelectionMenu();
+                selectionMenu.setVisible(true);
+                selectionMenu.pack();
+                selectionMenu.setLocationRelativeTo(null);
 
                 this.hide();
         }
@@ -121,7 +121,7 @@ public class MainMenu extends javax.swing.JFrame {
     private void CheckStatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckStatsActionPerformed
         Object source = evt.getSource();
          if(source == CheckStats){
-                Stats statsMenu = new Stats();
+                StatsMenu statsMenu = new StatsMenu();
                 statsMenu.setVisible(true);
                 statsMenu.pack();
                 statsMenu.setLocationRelativeTo(null);
@@ -134,7 +134,7 @@ public class MainMenu extends javax.swing.JFrame {
         Object source = evt.getSource();
         
         if(source == Training){
-                Training trainMenu = new Training();
+                TrainingMenu trainMenu = new TrainingMenu();
                 trainMenu.setVisible(true);
                 trainMenu.pack();
                 trainMenu.setLocationRelativeTo(null);
@@ -185,4 +185,18 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton Quit;
     private javax.swing.JButton Training;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the character
+     */
+    public Character getCharacter() {
+        return character;
+    }
+
+    /**
+     * @param character the character to set
+     */
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 }

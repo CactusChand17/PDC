@@ -4,6 +4,8 @@
  */
 package MVC;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,12 +16,10 @@ import java.util.Scanner;
  * @author manu2
  */
 
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
-
 /**
  *
  * @author manu2
@@ -45,86 +45,49 @@ public class Fighting {
 
     //list for abilitys
     ArrayList<String> list = new ArrayList<>();
-    //file for abilitys used
-    File file = new File("./resources/AbilitysUsed.txt");
-    //writefile class
-    //WriteFile writeFile = new WriteFile();
+
+    private int botLevel;
+    private int attack1 = 1;
+    private final int attack2 = 2;
+    private final int attack3 = 3;
+    private final int attack4 = 4;
+
+    public static void main(String[] args) {
+        Fighting fight = new Fighting();
+        fight.fight();
+    }
 
     public void fight() {
         //sets bots up
-        easy.easyBot();
+
         moderate.moderateBot();
         hard.hardBot();
         superhard.grandMasterBot();
         finalboss.FinalBoss();
-
-        //Scanner for scanning input
-        Scanner scan = new Scanner(System.in);
-        String input = " ";
-
-        while (input != null) {
-            //printing out the options
-            System.out.println("Enter: \n 1: Easy \n 2: Moderate \n 3: Hard \n 4: SuperHard \n 5: Final \n Press x to exit");
-            input = scan.nextLine();
-
-            //checking if the player wants to quit
-            if ("x".equals(input)) {
-
-                System.out.println("Exiting");
-                //add to the exit menu****
-                Player.setHealth(0);
-                input = null;
-                //if input is equal to the number
-            } else if ("1".equals(input) || "2".equals(input) || "3".equals(input) || "4".equals(input) || "5".equals(input)) {
-                //Parsing the string to int
-                int number = Integer.parseInt(input);
-
-                //switch case for choosen option
-                switch (number) {
-                    case 1:
-                        //goes into the easy boss
-                        this.easy();
-                        //add stats if won
-                        this.addingStats();
-                        input = null;
-                        break;
-                    case 2:
-                        //goes into the moderate boss
-                        this.moderate();
-                        //add stats if won
-                        this.addingStats();
-                        input = null;
-                        break;
-                    case 3:
-                        //goes into the hard boss
-                        this.hard();
-                        //add stats if won
-                        this.addingStats();
-                        input = null;
-                        break;
-                    case 4:
-                        //goes into the superhard boss
-                        this.superhard();
-                        //add stats if won
-                        this.addingStats();
-                        input = null;
-                        break;
-                    case 5:
-                        //goes into the final boss
-                        this.finalboss();
-                        //add stats if won
-                        this.addingStats();
-                        input = null;
-                        break;
-                    default:
-                        break;
-                }
-
-            } else {
-                //if the input does not equal correctly
-                System.out.println("Enter correct input");
-            }
+        setBotLevel(1);
+        switch (getBotLevel()) {
+            case 1:
+                this.easy();
+                break;
+            case 2:
+                this.moderate();
+                break;
+            case 3:
+                this.hard();
+                break;
+            case 4:
+                this.superhard();
+                break;
+            case 5:
+                this.finalboss();
+                break;
+            default:
+                break;
         }
+
+    }
+
+    public void checker() {
         //checks if the player item list contains holy grail or eclipse and it adds its stats
         //then also removes them from both items and player items because it adds the stat once
         if (Player.items.contains("Holy Grail")) {
@@ -142,67 +105,122 @@ public class Fighting {
             Player.items.remove("Eclipse");
             items.Items.remove("Eclipse");
         }
-
     }
 
     public void easy() {
-        Scanner scan = new Scanner(System.in);
+        easy.easyBot();
         //tells name and difficulty of boss
         System.out.println("Fighting Easy Enemy");
         System.out.println(easy.getName());
-        //loops while player health or boss health is greater than 0
+        FightingMenu fightingMenu = new FightingMenu();
+        fightingMenu.setVisible(true);
+        fightingMenu.pack();
+        fightingMenu.setLocationRelativeTo(null);
+
+        Player.setPlayerClass(Player.getClasses().Mage());
         while (Player.getHealth() > 0 || easy.getHealth() > 0) {
-            //shows player class
-            System.out.println(Player.getPlayerClass());
-            //asking for input
-            System.out.println("Enter ability name e.g 'Heavy': ");
-            String stringInput = scan.nextLine();
-            //if statement checks if the input has the correct key
-            if (Player.getPlayerClass().containsKey(stringInput)) {
-                //adds key to arraylist
-                list.add(stringInput);
-                //checks what the player class is
-                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                    //from the class it takes the damage of the ability
-                    Integer damage = (Integer) Player.getClasses().Mage().get(stringInput);
-                    //sets the health of bot minus the damage
-                    easy.setHealth(easy.getHealth() - damage);
-                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                    Integer damage = (Integer) Player.getClasses().Rogue().get(stringInput);
-                    easy.setHealth(easy.getHealth() - damage);
-                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                    Integer damage = (Integer) Player.getClasses().Warrior().get(stringInput);
-                    easy.setHealth(easy.getHealth() - damage);
-                }
+            fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+            fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+            fightingMenu.getAttack1().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                        Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
+                        easy.setHealth(easy.getHealth() - damage);
 
-                //if the bosses health is still above 0
-                if (easy.getHealth() > 0) {
-                    //show boss health
-                    System.out.println("Boss Health: " + easy.getHealth());
-                    //do damage to player
-                    Player.setHealth(Player.getHealth() - easy.getDamage());
-                } else {
-                    //breaks loop
-                    break;
-                }
-                //if the players health is above 0
-                if (Player.getHealth() > 0) {
-                    //show player health
-                    System.out.println("Your Health: " + Player.getHealth());
-                } else {
-                    //breaks loop
-                    break;
-                }
-                //checks if the player has fairy or warmogs item
-                //they are in the loop cause they can stack
-                this.fairy();
-                this.warmogs();
+                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                        Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
+                        easy.setHealth(easy.getHealth() - damage);
+                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                        Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
+                        easy.setHealth(easy.getHealth() - damage);
+                    }
+                    fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                    if (easy.getHealth() > 0) {
+                        Player.setHealth(Player.getHealth() - easy.getDamage());
+                    }
+                    fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
 
-                //if the input is not equal to the key
-            } else {
-                System.out.println("Enter correct input");
-            }
+                }
+            });
+
+            fightingMenu.getAttack2().addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                        Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+                        easy.setHealth(easy.getHealth() - damage);
+                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                        Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+                        easy.setHealth(easy.getHealth() - damage);
+                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                        Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+                        easy.setHealth(easy.getHealth() - damage);
+                    }
+                    fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                    if (easy.getHealth() > 0) {
+                        Player.setHealth(Player.getHealth() - easy.getDamage());
+                    }
+                    fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                }
+            });
+
+//            switch (attack1) {
+//                case 1:
+//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+//                        Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
+//                        easy.setHealth(easy.getHealth() - damage);          
+//                        fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+//                        Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    }
+//                    break;
+//                case 2:
+//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+//                        Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+//                        Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    }
+//                    break;
+//                case 3:
+//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+//                        Integer damage = (Integer) Player.getClasses().Mage().get("Lighting");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+//                        Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    }
+//                    break;
+//                case 4:
+//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+//                        Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+//                        Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
+//                        easy.setHealth(easy.getHealth() - damage);
+//                    }
+//                    break;
+//                default:
+//                    break;
+//            }
+            break;
         }
+
     }
 
     //rest are repeated but different boss difficulty 
@@ -423,6 +441,18 @@ public class Fighting {
         Player.items.add(randomItem);
     }
 
+    /**
+     * @return the botLevel
+     */
+    public int getBotLevel() {
+        return botLevel;
+    }
+
+    /**
+     * @param botLevel the botLevel to set
+     */
+    public void setBotLevel(int botLevel) {
+        this.botLevel = botLevel;
+    }
+
 }
-
-
