@@ -6,10 +6,10 @@ package MVC;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,14 +43,7 @@ public class Fighting {
     //sets the orginal health of player
     int orginalHealth = Player.getHealth();
 
-    //list for abilitys
-    ArrayList<String> list = new ArrayList<>();
-
     private int botLevel;
-    private int attack1 = 1;
-    private final int attack2 = 2;
-    private final int attack3 = 3;
-    private final int attack4 = 4;
 
     public static void main(String[] args) {
         Fighting fight = new Fighting();
@@ -59,26 +52,32 @@ public class Fighting {
 
     public void fight() {
         //sets bots up
-
+        //Player = menu.getCharacter();
+        //menu.setCharacter(Player);
         moderate.moderateBot();
         hard.hardBot();
         superhard.grandMasterBot();
         finalboss.FinalBoss();
-        setBotLevel(1);
+        //setBotLevel(1);
         switch (getBotLevel()) {
             case 1:
+                checker();
                 this.easy();
                 break;
             case 2:
+                checker();
                 this.moderate();
                 break;
             case 3:
+                checker();
                 this.hard();
                 break;
             case 4:
+                checker();
                 this.superhard();
                 break;
             case 5:
+                checker();
                 this.finalboss();
                 break;
             default:
@@ -109,6 +108,7 @@ public class Fighting {
 
     public void easy() {
         easy.easyBot();
+        LoginJframe jframe = new LoginJframe();
         //tells name and difficulty of boss
         System.out.println("Fighting Easy Enemy");
         System.out.println(easy.getName());
@@ -117,280 +117,867 @@ public class Fighting {
         fightingMenu.pack();
         fightingMenu.setLocationRelativeTo(null);
 
-        Player.setPlayerClass(Player.getClasses().Mage());
-        while (Player.getHealth() > 0 || easy.getHealth() > 0) {
-            fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
-            fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
-            fightingMenu.getAttack1().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                        Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
-                        easy.setHealth(easy.getHealth() - damage);
+        fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+        fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+        fightingMenu.getAttack1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
+                    easy.setHealth(easy.getHealth() - damage);
 
-                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                        Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
-                        easy.setHealth(easy.getHealth() - damage);
-                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                        Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
-                        easy.setHealth(easy.getHealth() - damage);
-                    }
-                    fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
-                    if (easy.getHealth() > 0) {
-                        Player.setHealth(Player.getHealth() - easy.getDamage());
-                    }
-                    fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
-
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
+                    easy.setHealth(easy.getHealth() - damage);
                 }
-            });
-
-            fightingMenu.getAttack2().addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                        Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
-                        easy.setHealth(easy.getHealth() - damage);
-                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                        Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
-                        easy.setHealth(easy.getHealth() - damage);
-                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                        Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
-                        easy.setHealth(easy.getHealth() - damage);
-                    }
-                    fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
-                    if (easy.getHealth() > 0) {
-                        Player.setHealth(Player.getHealth() - easy.getDamage());
-                    }
-                    fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                if (easy.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - easy.getDamage());
                 }
-            });
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (easy.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
 
-//            switch (attack1) {
-//                case 1:
-//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-//                        Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
-//                        easy.setHealth(easy.getHealth() - damage);          
-//                        fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-//                        Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    }
-//                    break;
-//                case 2:
-//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-//                        Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-//                        Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    }
-//                    break;
-//                case 3:
-//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-//                        Integer damage = (Integer) Player.getClasses().Mage().get("Lighting");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-//                        Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    }
-//                    break;
-//                case 4:
-//                    if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-//                        Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-//                        Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-//                        Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
-//                        easy.setHealth(easy.getHealth() - damage);
-//                    }
-//                    break;
-//                default:
-//                    break;
-//            }
-            break;
-        }
+        fightingMenu.getAttack2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+                    easy.setHealth(easy.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                if (easy.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - easy.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (easy.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
 
+        fightingMenu.getAttack3().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Lightning");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
+                    easy.setHealth(easy.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                if (easy.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - easy.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (easy.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack4().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
+                    easy.setHealth(easy.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
+                    easy.setHealth(easy.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                if (easy.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - easy.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (easy.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+
+            }
+        });
+
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jframe.setCharacter(Player);
+                jframe.mainMenuInit();
+                fightingMenu.hide();
+            }
+
+        });
+
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+
+        });
+
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+
+        });
     }
 
     //rest are repeated but different boss difficulty 
     public void moderate() {
-        Scanner scan = new Scanner(System.in);
-
-        System.out.println("Fighting Moderate Enemy");
+        moderate.moderateBot();
+        LoginJframe jframe = new LoginJframe();
+        //tells name and difficulty of boss
+        System.out.println("Fighting Easy Enemy");
         System.out.println(moderate.getName());
-        while (Player.getHealth() > 0 || moderate.getHealth() > 0) {
-            System.out.println(Player.getPlayerClass());
-            System.out.println("Enter ability name e.g 'Heavy': ");
-            String stringInput = scan.nextLine();
-            if (Player.getPlayerClass().containsKey(stringInput)) {
-                list.add(stringInput);
+        FightingMenu fightingMenu = new FightingMenu();
+        fightingMenu.setVisible(true);
+        fightingMenu.pack();
+        fightingMenu.setLocationRelativeTo(null);
+
+        fightingMenu.getBotHealth().setText(String.valueOf(moderate.getHealth()));
+        fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+        fightingMenu.getAttack1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
                 if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                    Integer damage = (Integer) Player.getClasses().Mage().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
                     moderate.setHealth(moderate.getHealth() - damage);
+
                 } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                    Integer damage = (Integer) Player.getClasses().Rogue().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
                     moderate.setHealth(moderate.getHealth() - damage);
                 } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                    Integer damage = (Integer) Player.getClasses().Warrior().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
                     moderate.setHealth(moderate.getHealth() - damage);
                 }
-
+                fightingMenu.getBotHealth().setText(String.valueOf(moderate.getHealth()));
                 if (moderate.getHealth() > 0) {
-                    System.out.println("Boss Health: " + moderate.getHealth());
                     Player.setHealth(Player.getHealth() - moderate.getDamage());
-                } else {
-                    break;
                 }
-                if (Player.getHealth() > 0) {
-                    System.out.println("Your Health: " + Player.getHealth());
-                } else {
-                    break;
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (moderate.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
                 }
-                this.fairy();
-                this.warmogs();
-
-            } else {
-                System.out.println("Wrong input");
             }
-        }
+        });
+
+        fightingMenu.getAttack2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(moderate.getHealth()));
+                if (moderate.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - moderate.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (moderate.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack3().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Lightning");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(moderate.getHealth()));
+                if (moderate.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - moderate.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (moderate.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack4().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
+                    moderate.setHealth(moderate.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(moderate.getHealth()));
+                if (moderate.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - moderate.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (moderate.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+
+            }
+        });
+
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jframe.setCharacter(Player);
+                jframe.mainMenuInit();
+                fightingMenu.hide();
+            }
+
+        });
+
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+
+        });
+
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+
+        });
+
     }
 
     public void hard() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Fighting Hard Enemy");
+        hard.hardBot();
+        LoginJframe jframe = new LoginJframe();
+        //tells name and difficulty of boss
+        System.out.println("Fighting Easy Enemy");
         System.out.println(hard.getName());
-        while (Player.getHealth() > 0 || hard.getHealth() > 0) {
-            System.out.println(Player.getPlayerClass());
-            System.out.println("Enter ability name e.g 'Heavy': ");
-            String stringInput = scan.nextLine();
-            if (Player.getPlayerClass().containsKey(stringInput)) {
-                list.add(stringInput);
+        FightingMenu fightingMenu = new FightingMenu();
+        fightingMenu.setVisible(true);
+        fightingMenu.pack();
+        fightingMenu.setLocationRelativeTo(null);
+
+        fightingMenu.getBotHealth().setText(String.valueOf(hard.getHealth()));
+        fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+        fightingMenu.getAttack1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
                 if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                    Integer damage = (Integer) Player.getClasses().Mage().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
                     hard.setHealth(hard.getHealth() - damage);
+
                 } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                    Integer damage = (Integer) Player.getClasses().Rogue().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
                     hard.setHealth(hard.getHealth() - damage);
                 } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                    Integer damage = (Integer) Player.getClasses().Warrior().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
                     hard.setHealth(hard.getHealth() - damage);
                 }
-
+                fightingMenu.getBotHealth().setText(String.valueOf(hard.getHealth()));
                 if (hard.getHealth() > 0) {
-                    System.out.println("Boss Health: " + hard.getHealth());
                     Player.setHealth(Player.getHealth() - hard.getDamage());
-                } else {
-                    break;
                 }
-                if (Player.getHealth() > 0) {
-                    System.out.println("Your Health: " + Player.getHealth());
-                } else {
-                    break;
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (hard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
                 }
-                this.fairy();
-                this.warmogs();
-
-            } else {
-                System.out.println("Wrong input");
             }
-        }
+        });
+
+        fightingMenu.getAttack2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+                    hard.setHealth(hard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+                    hard.setHealth(hard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+                    hard.setHealth(hard.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(hard.getHealth()));
+                if (hard.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - hard.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (hard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack3().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Lightning");
+                    hard.setHealth(hard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
+                    hard.setHealth(hard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
+                    hard.setHealth(hard.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(hard.getHealth()));
+                if (hard.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - hard.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (hard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack4().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
+                    hard.setHealth(hard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
+                    hard.setHealth(hard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
+                    hard.setHealth(hard.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(hard.getHealth()));
+                if (hard.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - hard.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (hard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+
+            }
+        });
+        
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jframe.setCharacter(Player);
+                jframe.mainMenuInit();
+                fightingMenu.hide();
+            }
+    
+         });
+        
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+    
+         });
+        
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+    
+         });
     }
 
     public void superhard() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Fighting SuperHard Enemy");
+        LoginJframe jframe = new LoginJframe();
+        superhard.grandMasterBot();
+        //tells name and difficulty of boss
+        System.out.println("Fighting Easy Enemy");
         System.out.println(superhard.getName());
-        while (Player.getHealth() >= 0 || superhard.getHealth() > 0) {
-            System.out.println(Player.getPlayerClass());
-            System.out.println("Enter ability name e.g 'Heavy': ");
-            String stringInput = scan.nextLine();
-            if (Player.getPlayerClass().containsKey(stringInput)) {
-                list.add(stringInput);
+        FightingMenu fightingMenu = new FightingMenu();
+        fightingMenu.setVisible(true);
+        fightingMenu.pack();
+        fightingMenu.setLocationRelativeTo(null);
+
+        fightingMenu.getBotHealth().setText(String.valueOf(superhard.getHealth()));
+        fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+        fightingMenu.getAttack1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
                 if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                    Integer damage = (Integer) Player.getClasses().Mage().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
                     superhard.setHealth(superhard.getHealth() - damage);
+
                 } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                    Integer damage = (Integer) Player.getClasses().Rogue().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
                     superhard.setHealth(superhard.getHealth() - damage);
                 } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                    Integer damage = (Integer) Player.getClasses().Warrior().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
                     superhard.setHealth(superhard.getHealth() - damage);
                 }
-
+                fightingMenu.getBotHealth().setText(String.valueOf(superhard.getHealth()));
                 if (superhard.getHealth() > 0) {
                     Player.setHealth(Player.getHealth() - superhard.getDamage());
-                } else {
-                    break;
                 }
-
-                if (Player.getHealth() > 0) {
-                    System.out.println("Boss Health: " + superhard.getHealth());
-                    System.out.println("Your Health: " + Player.getHealth());
-                } else {
-                    break;
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (superhard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
                 }
-                this.fairy();
-                this.warmogs();
-
-            } else {
-                System.out.println("Wrong input");
             }
-        }
+        });
+
+        fightingMenu.getAttack2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(superhard.getHealth()));
+                if (superhard.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - superhard.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (superhard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack3().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Lightning");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(superhard.getHealth()));
+                if (superhard.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - superhard.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (superhard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack4().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
+                    superhard.setHealth(superhard.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(superhard.getHealth()));
+                if (finalboss.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - superhard.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (superhard.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+
+            }
+        });
+        
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jframe.setCharacter(Player);
+                jframe.mainMenuInit();
+                fightingMenu.hide();
+            }
+    
+         });
+        
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+    
+         });
+        
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+    
+         });
     }
 
     public void finalboss() {
-        Scanner scan = new Scanner(System.in);
-        System.out.println("Fighting FinalBoss Enemy");
-        System.out.println(finalboss.getName());
-        while (Player.getHealth() > 0 || finalboss.getHealth() > 0) {
+        LoginJframe jframe = new LoginJframe();
 
-            System.out.println(Player.getPlayerClass());
-            System.out.println("Enter ability name e.g 'Heavy': ");
-            String stringInput = scan.nextLine();
-            if (Player.getPlayerClass().containsKey(stringInput)) {
-                list.add(stringInput);
+        finalboss.FinalBoss();
+        //tells name and difficulty of boss
+        System.out.println("Fighting Easy Enemy");
+        System.out.println(finalboss.getName());
+        FightingMenu fightingMenu = new FightingMenu();
+        fightingMenu.setVisible(true);
+        fightingMenu.pack();
+        fightingMenu.setLocationRelativeTo(null);
+
+        fightingMenu.getBotHealth().setText(String.valueOf(finalboss.getHealth()));
+        fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+        fightingMenu.getAttack1().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
                 if (Player.getPlayerClass() == Player.getClasses().Mage()) {
-                    Integer damage = (Integer) Player.getClasses().Mage().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
                     finalboss.setHealth(finalboss.getHealth() - damage);
+
                 } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
-                    Integer damage = (Integer) Player.getClasses().Rogue().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Neutral");
                     finalboss.setHealth(finalboss.getHealth() - damage);
                 } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
-                    Integer damage = (Integer) Player.getClasses().Warrior().get(stringInput);
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
                     finalboss.setHealth(finalboss.getHealth() - damage);
                 }
-
+                fightingMenu.getBotHealth().setText(String.valueOf(finalboss.getHealth()));
                 if (finalboss.getHealth() > 0) {
-                    System.out.println("Boss Health: " + finalboss.getHealth());
                     Player.setHealth(Player.getHealth() - finalboss.getDamage());
-                } else {
-                    break;
                 }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (finalboss.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
 
-                if (Player.getHealth() > 0) {
-                    System.out.println("Your Health: " + Player.getHealth());
-                } else {
-                    break;
                 }
-
-                this.fairy();
-                this.warmogs();
-
-            } else {
-                System.out.println("Wrong input");
             }
-        }
+        });
+
+        fightingMenu.getAttack2().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Heavy");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Heavy");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Heavy");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(finalboss.getHealth()));
+                if (finalboss.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - finalboss.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (finalboss.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack3().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Lightning");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("Sneak");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Sheild");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(finalboss.getHealth()));
+                if (finalboss.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - finalboss.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (finalboss.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+            }
+        });
+
+        fightingMenu.getAttack4().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                warmogs();
+                fairy();
+                if (Player.getPlayerClass() == Player.getClasses().Mage()) {
+                    Integer damage = (Integer) Player.getClasses().Mage().get("Storm");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Rogue()) {
+                    Integer damage = (Integer) Player.getClasses().Rogue().get("DeathDance");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                } else if (Player.getPlayerClass() == Player.getClasses().Warrior()) {
+                    Integer damage = (Integer) Player.getClasses().Warrior().get("Barrage");
+                    finalboss.setHealth(finalboss.getHealth() - damage);
+                }
+                fightingMenu.getBotHealth().setText(String.valueOf(finalboss.getHealth()));
+                if (finalboss.getHealth() > 0) {
+                    Player.setHealth(Player.getHealth() - finalboss.getDamage());
+                }
+                fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                if (Player.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    System.exit(0);
+                } else if (finalboss.getHealth() <= 0) {
+                    JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    addingStats();
+                    jframe.setCharacter(Player);
+                    jframe.mainMenuInit();
+                    fightingMenu.hide();
+                }
+
+            }
+        });
+        
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                jframe.setCharacter(Player);
+                jframe.mainMenuInit();
+                fightingMenu.hide();
+            }
+    
+         });
+        
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+    
+         });
+        
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+    
+         });
     }
 
     public void fairy() {

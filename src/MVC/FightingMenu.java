@@ -11,8 +11,7 @@ package MVC;
  * @author manu2
  */
 public class FightingMenu extends javax.swing.JFrame {
-    MainMenu menu = new MainMenu();
-    Fighting fight = new Fighting();
+
     private int attackType;
     
     /**
@@ -21,7 +20,7 @@ public class FightingMenu extends javax.swing.JFrame {
     public FightingMenu() {
         initComponents();
         
-        menu.getCharacter().setPlayerClass(menu.getCharacter().getClasses().Mage());
+        
     }
     
     
@@ -39,9 +38,11 @@ public class FightingMenu extends javax.swing.JFrame {
         Attack2 = new javax.swing.JButton();
         Attack3 = new javax.swing.JButton();
         Attack4 = new javax.swing.JButton();
-        Quit = new javax.swing.JButton();
+        fightingQuit = new javax.swing.JButton();
         Health = new javax.swing.JLabel();
         botHealth = new javax.swing.JLabel();
+        fightingMenuBack = new javax.swing.JButton();
+        fightingRestart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,17 +78,33 @@ public class FightingMenu extends javax.swing.JFrame {
             }
         });
 
-        Quit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
-        Quit.setText("Quit");
-        Quit.addActionListener(new java.awt.event.ActionListener() {
+        fightingQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        fightingQuit.setText("Quit");
+        fightingQuit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                QuitActionPerformed(evt);
+                fightingQuitActionPerformed(evt);
             }
         });
 
         Health.setText("jLabel1");
 
         botHealth.setText("jLabel1");
+
+        fightingMenuBack.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        fightingMenuBack.setText("Menu");
+        fightingMenuBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fightingMenuBackActionPerformed(evt);
+            }
+        });
+
+        fightingRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        fightingRestart.setText("Restart");
+        fightingRestart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fightingRestartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,11 +114,14 @@ public class FightingMenu extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(fightingRestart, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                         .addComponent(Attack1, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Quit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fightingQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(fightingMenuBack, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Attack3, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -134,19 +154,23 @@ public class FightingMenu extends javax.swing.JFrame {
                             .addComponent(Attack3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(10, 10, 10))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Quit)
+                        .addComponent(fightingRestart)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fightingMenuBack)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fightingQuit)
                         .addContainerGap())))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void QuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitActionPerformed
+    private void fightingQuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fightingQuitActionPerformed
         Object source = evt.getSource();
-        if (source == Quit) {
+        if (source == getFightingQuit()) {
             System.exit(0);
         }
-    }//GEN-LAST:event_QuitActionPerformed
+    }//GEN-LAST:event_fightingQuitActionPerformed
 
     private void Attack2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Attack2ActionPerformed
       
@@ -163,6 +187,14 @@ public class FightingMenu extends javax.swing.JFrame {
     private void Attack4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Attack4ActionPerformed
        
     }//GEN-LAST:event_Attack4ActionPerformed
+
+    private void fightingMenuBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fightingMenuBackActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fightingMenuBackActionPerformed
+
+    private void fightingRestartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fightingRestartActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fightingRestartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -207,10 +239,12 @@ public class FightingMenu extends javax.swing.JFrame {
     private javax.swing.JButton Attack3;
     private javax.swing.JButton Attack4;
     private javax.swing.JLabel Health;
-    private javax.swing.JButton Quit;
     private javax.swing.JLabel botHealth;
+    private javax.swing.JButton fightingMenuBack;
+    private javax.swing.JButton fightingQuit;
+    private javax.swing.JButton fightingRestart;
     // End of variables declaration//GEN-END:variables
-
+    
     /**
      * @return the Attack1
      */
@@ -307,5 +341,47 @@ public class FightingMenu extends javax.swing.JFrame {
      */
     public void setBotHealth(javax.swing.JLabel botHealth) {
         this.botHealth = botHealth;
+    }
+
+    /**
+     * @return the fightingMenuBack
+     */
+    public javax.swing.JButton getFightingMenuBack() {
+        return fightingMenuBack;
+    }
+
+    /**
+     * @param fightingMenuBack the fightingMenuBack to set
+     */
+    public void setFightingMenuBack(javax.swing.JButton fightingMenuBack) {
+        this.fightingMenuBack = fightingMenuBack;
+    }
+
+    /**
+     * @return the fightingQuit
+     */
+    public javax.swing.JButton getFightingQuit() {
+        return fightingQuit;
+    }
+
+    /**
+     * @param fightingQuit the fightingQuit to set
+     */
+    public void setFightingQuit(javax.swing.JButton fightingQuit) {
+        this.fightingQuit = fightingQuit;
+    }
+
+    /**
+     * @return the fightingRestart
+     */
+    public javax.swing.JButton getFightingRestart() {
+        return fightingRestart;
+    }
+
+    /**
+     * @param fightingRestart the fightingRestart to set
+     */
+    public void setFightingRestart(javax.swing.JButton fightingRestart) {
+        this.fightingRestart = fightingRestart;
     }
 }
