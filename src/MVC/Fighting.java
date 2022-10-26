@@ -275,6 +275,9 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setReset(true);
+                jframe.loginInit();
+                fightingMenu.hide();
             }
 
         });
@@ -450,6 +453,9 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setReset(true);
+                jframe.loginInit();
+                fightingMenu.hide();
             }
 
         });
@@ -625,6 +631,9 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setReset(true);
+                jframe.loginInit();
+                fightingMenu.hide();
             }
     
          });
@@ -799,6 +808,9 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setReset(true);
+                jframe.loginInit();
+                fightingMenu.hide();
             }
     
          });
@@ -975,6 +987,9 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                jframe.setReset(true);
+                jframe.loginInit();
+                fightingMenu.hide();
             }
     
          });

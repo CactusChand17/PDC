@@ -16,8 +16,10 @@ public class LoginJframe extends JFrame {
 
     private final int trainingNumber = 10;
     private Character character = new Character();
+    Character newCharacter = character;
     Training train = new Training(trainingNumber);
     Fighting fight = new Fighting();
+    private boolean reset;
 
     //login
     private javax.swing.JTextField Age;
@@ -45,6 +47,7 @@ public class LoginJframe extends JFrame {
     private javax.swing.JPanel MainMenuJPanel;
     private javax.swing.JButton Training;
     private javax.swing.JButton mainMenuQuit;
+    private javax.swing.JButton mainRestart;
 
     //StatsMenu
     private javax.swing.JLabel EXP;
@@ -58,6 +61,7 @@ public class LoginJframe extends JFrame {
     private javax.swing.JLabel classes;
     private javax.swing.JButton menuBackStats;
     private javax.swing.JButton statsQuit;
+    private javax.swing.JButton statsRestart;
 
     //TrainingMenu
     private javax.swing.JPanel TrainingJPanel;
@@ -119,6 +123,10 @@ public class LoginJframe extends JFrame {
         });
 
         Login.addActionListener((java.awt.event.ActionEvent evt) -> {
+            if (reset == true) {
+                setCharacter(newCharacter);
+                setReset(false);
+            }
             Object source = evt.getSource();
             String username = Username.getText();
             String password = String.valueOf(Password.getText());
@@ -324,6 +332,7 @@ public class LoginJframe extends JFrame {
         Training = new javax.swing.JButton();
         CheckStats = new javax.swing.JButton();
         mainMenuQuit = new javax.swing.JButton();
+        mainRestart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -373,6 +382,13 @@ public class LoginJframe extends JFrame {
             }
         });
 
+        mainRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        mainRestart.setText("Restart");
+        mainRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
+            setReset(true);
+            loginInit();
+            this.MainMenuJPanel.hide();
+        });
         javax.swing.GroupLayout MainMenuJPanelLayout = new javax.swing.GroupLayout(MainMenuJPanel);
         MainMenuJPanel.setLayout(MainMenuJPanelLayout);
         MainMenuJPanelLayout.setHorizontalGroup(
@@ -380,7 +396,9 @@ public class LoginJframe extends JFrame {
                         .addGroup(MainMenuJPanelLayout.createSequentialGroup()
                                 .addGap(15, 15, 15)
                                 .addComponent(mainMenuQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(mainRestart)
+                                .addContainerGap())
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MainMenuJPanelLayout.createSequentialGroup()
                                 .addContainerGap(246, Short.MAX_VALUE)
                                 .addGroup(MainMenuJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -394,12 +412,14 @@ public class LoginJframe extends JFrame {
                         .addGroup(MainMenuJPanelLayout.createSequentialGroup()
                                 .addContainerGap(127, Short.MAX_VALUE)
                                 .addComponent(Fighting, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(68, 68, 68)
+                                .addGap(61, 61, 61)
                                 .addComponent(Training, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(47, 47, 47)
+                                .addGap(54, 54, 54)
                                 .addComponent(CheckStats, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(111, 111, 111)
-                                .addComponent(mainMenuQuit)
+                                .addGroup(MainMenuJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(mainMenuQuit)
+                                        .addComponent(mainRestart))
                                 .addGap(16, 16, 16))
         );
 
@@ -433,6 +453,7 @@ public class LoginJframe extends JFrame {
         StatsLabel = new javax.swing.JLabel();
         menuBackStats = new javax.swing.JButton();
         statsQuit = new javax.swing.JButton();
+        statsRestart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -459,6 +480,14 @@ public class LoginJframe extends JFrame {
 
         StatsLabel.setFont(new java.awt.Font("Impact", 0, 48)); // NOI18N
         StatsLabel.setText("Stats");
+
+        statsRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
+        statsRestart.setText("Restart");
+        statsRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
+            setReset(true);
+            loginInit();
+            this.StatsJPanel.hide();
+        });
 
         menuBackStats.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         menuBackStats.setText("Menu");
@@ -490,7 +519,9 @@ public class LoginJframe extends JFrame {
                                                 .addGap(319, 319, 319))
                                         .addGroup(StatsJPanelLayout.createSequentialGroup()
                                                 .addComponent(statsQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(statsRestart)
+                                                .addContainerGap())))
                         .addGroup(StatsJPanelLayout.createSequentialGroup()
                                 .addGap(37, 37, 37)
                                 .addGroup(StatsJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -533,16 +564,18 @@ public class LoginJframe extends JFrame {
                                         .addGroup(StatsJPanelLayout.createSequentialGroup()
                                                 .addGap(73, 73, 73)
                                                 .addComponent(classes)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, Short.MAX_VALUE)))
                                 .addGroup(StatsJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(ExpLabel)
                                         .addComponent(EXP))
-                                .addGap(71, 71, 71)
+                                .addGap(25, 25, 25)
                                 .addGroup(StatsJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(ItemLabel)
                                         .addComponent(Items))
-                                .addGap(15, 15, 15)
-                                .addComponent(statsQuit)
+                                .addGap(10, 10, 10)
+                                .addGroup(StatsJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(statsQuit)
+                                        .addComponent(statsRestart))
                                 .addContainerGap())
         );
 
@@ -643,59 +676,61 @@ public class LoginJframe extends JFrame {
         trainingRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         trainingRestart.setText("Restart");
         trainingRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
-
+            setReset(true);
+            loginInit();
+            this.TrainingJPanel.hide();
         });
 
         javax.swing.GroupLayout TrainingJPanelLayout = new javax.swing.GroupLayout(TrainingJPanel);
         TrainingJPanel.setLayout(TrainingJPanelLayout);
         TrainingJPanelLayout.setHorizontalGroup(
-            TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(trainingQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(trainingMenuBack, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(trainingRestart, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
-            .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                        .addGap(301, 301, 301)
-                        .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TrainingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(trainingExp)
-                                    .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                    .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                        .addGap(366, 366, 366)
-                        .addComponent(trainingExpLabel)))
-                .addContainerGap(307, Short.MAX_VALUE))
+                TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(trainingQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                                .addGap(2, 2, 2)
+                                                .addComponent(trainingMenuBack, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(trainingRestart, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15))
+                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                                .addGap(301, 301, 301)
+                                                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(TrainingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                                                .addGap(31, 31, 31)
+                                                                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                        .addComponent(trainingExp)
+                                                                        .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                .addComponent(startButton, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                                .addGap(366, 366, 366)
+                                                .addComponent(trainingExpLabel)))
+                                .addContainerGap(307, Short.MAX_VALUE))
         );
         TrainingJPanelLayout.setVerticalGroup(
-            TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(TrainingJPanelLayout.createSequentialGroup()
-                .addComponent(trainingMenuBack)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(TrainingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(102, 102, 102)
-                .addComponent(startButton)
-                .addGap(46, 46, 46)
-                .addComponent(updateButton)
-                .addGap(29, 29, 29)
-                .addComponent(trainingExpLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(trainingExp)
-                .addGap(42, 42, 42)
-                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(trainingQuit)
-                    .addComponent(trainingRestart)))
+                TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(TrainingJPanelLayout.createSequentialGroup()
+                                .addComponent(trainingMenuBack)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(TrainingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(102, 102, 102)
+                                .addComponent(startButton)
+                                .addGap(46, 46, 46)
+                                .addComponent(updateButton)
+                                .addGap(29, 29, 29)
+                                .addComponent(trainingExpLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(trainingExp)
+                                .addGap(42, 42, 42)
+                                .addGroup(TrainingJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(trainingQuit)
+                                        .addComponent(trainingRestart)))
         );
 
         updateButton.setVisible(false);
@@ -703,16 +738,16 @@ public class LoginJframe extends JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(TrainingJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(TrainingJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(TrainingJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(TrainingJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))
         );
         //this.add(TrainingJPanel, BorderLayout.CENTER);
         setPreferredSize(getPreferredSize());
@@ -744,7 +779,7 @@ public class LoginJframe extends JFrame {
             fight.setBotLevel(1);
             fight.Player = getCharacter();
             fight.fight();
-           
+
         });
 
         moderateBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -756,7 +791,7 @@ public class LoginJframe extends JFrame {
             fight.setBotLevel(2);
             fight.Player = getCharacter();
             fight.fight();
-            
+
         });
 
         hardBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -768,7 +803,7 @@ public class LoginJframe extends JFrame {
             fight.setBotLevel(3);
             fight.Player = getCharacter();
             fight.fight();
-            
+
         });
 
         superHardBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -780,7 +815,7 @@ public class LoginJframe extends JFrame {
             fight.setBotLevel(4);
             fight.Player = getCharacter();
             fight.fight();
-            
+
         });
 
         bossBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -792,7 +827,7 @@ public class LoginJframe extends JFrame {
             fight.setBotLevel(5);
             fight.Player = getCharacter();
             fight.fight();
-            
+
         });
 
         selectionQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
@@ -807,7 +842,9 @@ public class LoginJframe extends JFrame {
         selectionRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         selectionRestart.setText("Restart");
         selectionRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
-
+            setReset(true);
+            loginInit();
+            this.SelectionJPanel.hide();
         });
 
         selectionMenuBack.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
@@ -820,65 +857,65 @@ public class LoginJframe extends JFrame {
         javax.swing.GroupLayout SelectionJPanelLayout = new javax.swing.GroupLayout(SelectionJPanel);
         SelectionJPanel.setLayout(SelectionJPanelLayout);
         SelectionJPanelLayout.setHorizontalGroup(
-            SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SelectionJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(SelectionJPanelLayout.createSequentialGroup()
-                        .addComponent(selectionQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(selectionRestart, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(SelectionJPanelLayout.createSequentialGroup()
-                        .addComponent(selectionMenuBack, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SelectionJPanelLayout.createSequentialGroup()
-                .addContainerGap(216, Short.MAX_VALUE)
-                .addGroup(SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(hardBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(superHardBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bossBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(moderateBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(easyBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(212, 212, 212))
+                SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(SelectionJPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(SelectionJPanelLayout.createSequentialGroup()
+                                                .addComponent(selectionQuit, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(selectionRestart, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(SelectionJPanelLayout.createSequentialGroup()
+                                                .addComponent(selectionMenuBack, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, SelectionJPanelLayout.createSequentialGroup()
+                                .addContainerGap(216, Short.MAX_VALUE)
+                                .addGroup(SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(hardBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(superHardBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bossBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(moderateBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(easyBot, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(212, 212, 212))
         );
         SelectionJPanelLayout.setVerticalGroup(
-            SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(SelectionJPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(selectionMenuBack)
-                .addGap(139, 139, 139)
-                .addComponent(easyBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(moderateBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(hardBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(superHardBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(bossBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
-                .addGroup(SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(selectionQuit)
-                    .addComponent(selectionRestart))
-                .addContainerGap())
+                SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(SelectionJPanelLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(selectionMenuBack)
+                                .addGap(139, 139, 139)
+                                .addComponent(easyBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(moderateBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(hardBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(superHardBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(bossBot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                                .addGroup(SelectionJPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(selectionQuit)
+                                        .addComponent(selectionRestart))
+                                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(SelectionJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
-                .addContainerGap())
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(SelectionJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE)
+                                .addContainerGap())
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(SelectionJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(SelectionJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
         );
         //this.add(SelectionJPanel, BorderLayout.CENTER);
         setPreferredSize(getPreferredSize());
-        this.setVisible(rootPaneCheckingEnabled);        
+        this.setVisible(rootPaneCheckingEnabled);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         pack();
@@ -905,5 +942,19 @@ public class LoginJframe extends JFrame {
      */
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+    /**
+     * @return the reset
+     */
+    public boolean isReset() {
+        return reset;
+    }
+
+    /**
+     * @param reset the reset to set
+     */
+    public void setReset(boolean reset) {
+        this.reset = reset;
     }
 }
