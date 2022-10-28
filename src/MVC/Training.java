@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class Training extends Character implements Runnable{  
     
-    private int num;
+    private final int num;
     private int finalNumber;
     public Training(int i) {
         this.num = i;

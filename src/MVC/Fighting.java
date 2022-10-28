@@ -6,9 +6,7 @@ package MVC;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
@@ -32,13 +30,14 @@ public class Fighting {
     Bot hard = new Bot();
     Bot superhard = new Bot();
     Bot finalboss = new Bot();
-
     //Adding Player object
     Character Player = new Character();
     //Calling items class
     Items items = new Items();
     //Random
     Random rand = new Random();
+    Database database = new Database();
+    playerData playerdata = new playerData();
 
     //sets the orginal health of player
     int orginalHealth = Player.getHealth();
@@ -108,7 +107,6 @@ public class Fighting {
 
     public void easy() {
         easy.easyBot();
-        LoginJframe jframe = new LoginJframe();
         //tells name and difficulty of boss
         System.out.println("Fighting Easy Enemy");
         System.out.println(easy.getName());
@@ -142,12 +140,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (easy.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -175,12 +174,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (easy.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -208,13 +208,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (easy.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -242,12 +242,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (easy.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
 
@@ -257,8 +258,6 @@ public class Fighting {
         fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setCharacter(Player);
-                jframe.mainMenuInit();
                 fightingMenu.hide();
             }
 
@@ -267,6 +266,7 @@ public class Fighting {
         fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                database.saveStats(playerdata.getWins(), playerdata.getUsername());
                 System.exit(0);
             }
 
@@ -275,8 +275,6 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setReset(true);
-                jframe.loginInit();
                 fightingMenu.hide();
             }
 
@@ -286,9 +284,8 @@ public class Fighting {
     //rest are repeated but different boss difficulty 
     public void moderate() {
         moderate.moderateBot();
-        LoginJframe jframe = new LoginJframe();
         //tells name and difficulty of boss
-        System.out.println("Fighting Easy Enemy");
+        System.out.println("Fighting Moderate Enemy");
         System.out.println(moderate.getName());
         FightingMenu fightingMenu = new FightingMenu();
         fightingMenu.setVisible(true);
@@ -320,12 +317,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (moderate.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -353,12 +351,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (moderate.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -386,13 +385,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (moderate.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -420,12 +419,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (moderate.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
 
@@ -435,8 +435,6 @@ public class Fighting {
         fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setCharacter(Player);
-                jframe.mainMenuInit();
                 fightingMenu.hide();
             }
 
@@ -445,6 +443,8 @@ public class Fighting {
         fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                database.saveStats(playerdata.getWins(), playerdata.getUsername());
                 System.exit(0);
             }
 
@@ -453,8 +453,6 @@ public class Fighting {
         fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setReset(true);
-                jframe.loginInit();
                 fightingMenu.hide();
             }
 
@@ -464,9 +462,8 @@ public class Fighting {
 
     public void hard() {
         hard.hardBot();
-        LoginJframe jframe = new LoginJframe();
         //tells name and difficulty of boss
-        System.out.println("Fighting Easy Enemy");
+        System.out.println("Fighting Hard Enemy");
         System.out.println(hard.getName());
         FightingMenu fightingMenu = new FightingMenu();
         fightingMenu.setVisible(true);
@@ -498,12 +495,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (hard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -531,12 +529,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (hard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -564,13 +563,14 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (hard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
 
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -598,52 +598,51 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (hard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
 
             }
         });
-        
-        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener(){
+
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setCharacter(Player);
-                jframe.mainMenuInit();
                 fightingMenu.hide();
             }
-    
-         });
-        
-        fightingMenu.getFightingQuit().addActionListener(new ActionListener(){
+
+        });
+
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+                database.saveStats(playerdata.getWins(), playerdata.getUsername());
                 System.exit(0);
             }
-    
-         });
-        
-        fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
+
+        });
+
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setReset(true);
-                jframe.loginInit();
                 fightingMenu.hide();
             }
-    
-         });
+
+        });
     }
 
     public void superhard() {
-        LoginJframe jframe = new LoginJframe();
+
         superhard.grandMasterBot();
         //tells name and difficulty of boss
-        System.out.println("Fighting Easy Enemy");
+        System.out.println("Fighting SuperHard Enemy");
         System.out.println(superhard.getName());
         FightingMenu fightingMenu = new FightingMenu();
         fightingMenu.setVisible(true);
@@ -675,12 +674,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (superhard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -708,12 +708,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (superhard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -741,13 +742,14 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (superhard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
 
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -775,53 +777,50 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (superhard.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
 
             }
         });
-        
-        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener(){
+
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setCharacter(Player);
-                jframe.mainMenuInit();
                 fightingMenu.hide();
             }
-    
-         });
-        
-        fightingMenu.getFightingQuit().addActionListener(new ActionListener(){
+
+        });
+
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                database.saveStats(playerdata.getWins(), playerdata.getUsername());
                 System.exit(0);
             }
-    
-         });
-        
-        fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
+
+        });
+
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setReset(true);
-                jframe.loginInit();
                 fightingMenu.hide();
             }
-    
-         });
+
+        });
     }
 
     public void finalboss() {
-        LoginJframe jframe = new LoginJframe();
 
         finalboss.FinalBoss();
         //tells name and difficulty of boss
-        System.out.println("Fighting Easy Enemy");
+        System.out.println("Fighting Hardest Enemy");
         System.out.println(finalboss.getName());
         FightingMenu fightingMenu = new FightingMenu();
         fightingMenu.setVisible(true);
@@ -853,12 +852,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (finalboss.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
 
                 }
@@ -887,12 +887,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (finalboss.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -920,13 +921,13 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (finalboss.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
             }
@@ -954,45 +955,43 @@ public class Fighting {
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
+                    database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
                 } else if (finalboss.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
+                    playerdata.setWins(playerdata.getWins() + 1);
                     addingStats();
-                    jframe.setCharacter(Player);
-                    jframe.mainMenuInit();
+                    playerdata.character = Player;
                     fightingMenu.hide();
                 }
 
             }
         });
-        
-        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener(){
+
+        fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setCharacter(Player);
-                jframe.mainMenuInit();
                 fightingMenu.hide();
             }
-    
-         });
-        
-        fightingMenu.getFightingQuit().addActionListener(new ActionListener(){
+
+        });
+
+        fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                database.saveStats(playerdata.getWins(), playerdata.getUsername());
                 System.exit(0);
             }
-    
-         });
-        
-        fightingMenu.getFightingRestart().addActionListener(new ActionListener(){
+
+        });
+
+        fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                jframe.setReset(true);
-                jframe.loginInit();
                 fightingMenu.hide();
             }
-    
-         });
+
+        });
     }
 
     public void fairy() {

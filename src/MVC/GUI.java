@@ -12,13 +12,16 @@ import javax.swing.JOptionPane;
  *
  * @author manu2
  */
-public class LoginJframe extends JFrame {
+public class GUI extends JFrame {
 
     private final int trainingNumber = 10;
     private Character character = new Character();
     Character newCharacter = character;
     Training train = new Training(trainingNumber);
     Fighting fight = new Fighting();
+    CheckRank checkRank = new CheckRank();
+    playerData playerData = new playerData();
+    Database database = new Database();
     private boolean reset;
 
     //login
@@ -117,6 +120,7 @@ public class LoginJframe extends JFrame {
         Quit.addActionListener((java.awt.event.ActionEvent evt) -> {
             Object source = evt.getSource();
             if (source == Quit) {
+                database.saveStats(playerData.getWins(), playerData.getUsername());
                 System.exit(0);
             }
 
@@ -128,17 +132,19 @@ public class LoginJframe extends JFrame {
                 setReset(false);
             }
             Object source = evt.getSource();
-            String username = Username.getText();
-            String password = String.valueOf(Password.getText());
-            String age = String.valueOf(Age.getText());
+            playerData.setUsername(String.valueOf(Username.getText()));
+            playerData.setPassword(String.valueOf(Password.getText()));
+            playerData.setAge(String.valueOf(Age.getText()));
             if (source == Login) {
-                if (username.trim().equals("")) {
+                if (playerData.getUsername().trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Enter Username", "Empty Username", 2);
-                } else if (password.trim().equals("")) {
+                } else if (playerData.getPassword().trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Enter Password", "Empty Password", 2);
-                } else if (age.trim().equals("")) {
+                } else if (playerData.getAge().trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Enter Age", "Empty Age", 2);
                 } else {
+                    database.setUp();
+                    database.userExists(playerData.getUsername(), playerData.getPassword(), playerData.getAge());
                     //start connect with database
                     this.jPanel1.hide();
                     this.classSelectionInit();
@@ -262,6 +268,7 @@ public class LoginJframe extends JFrame {
         classesQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
             Object source = evt.getSource();
             if (source == classesQuit) {
+                database.saveStats(fight.playerdata.getWins(), playerData.getUsername());
                 System.exit(0);
             }
         });
@@ -333,7 +340,6 @@ public class LoginJframe extends JFrame {
         CheckStats = new javax.swing.JButton();
         mainMenuQuit = new javax.swing.JButton();
         mainRestart = new javax.swing.JButton();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Fighting.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
@@ -378,6 +384,7 @@ public class LoginJframe extends JFrame {
         mainMenuQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
             Object source = evt.getSource();
             if (source == mainMenuQuit) {
+                database.saveStats(fight.playerdata.getWins(), playerData.getUsername());
                 System.exit(0);
             }
         });
@@ -454,7 +461,8 @@ public class LoginJframe extends JFrame {
         menuBackStats = new javax.swing.JButton();
         statsQuit = new javax.swing.JButton();
         statsRestart = new javax.swing.JButton();
-
+        checkRank.Player = character;
+        checkRank.rankUp();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         classes.setFont(new java.awt.Font("Impact", 0, 36)); // NOI18N
@@ -492,6 +500,7 @@ public class LoginJframe extends JFrame {
         menuBackStats.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         menuBackStats.setText("Menu");
         menuBackStats.addActionListener((java.awt.event.ActionEvent evt) -> {
+            character = checkRank.Player;
             mainMenuInit();
             this.StatsJPanel.hide();
         });
@@ -501,6 +510,7 @@ public class LoginJframe extends JFrame {
         statsQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
             Object source = evt.getSource();
             if (source == statsQuit) {
+                database.saveStats(fight.playerdata.getWins(), playerData.getUsername());
                 System.exit(0);
             }
         });
@@ -644,6 +654,7 @@ public class LoginJframe extends JFrame {
         trainingQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
             Object source = evt.getSource();
             if (source == trainingQuit) {
+                database.saveStats(playerData.getWins(), playerData.getUsername());
                 System.exit(0);
             }
         });
@@ -660,7 +671,7 @@ public class LoginJframe extends JFrame {
             Object source = evt.getSource();
             if (source == updateButton) {
                 getCharacter().setExp(getCharacter().getExp() + train.getExp());
-                trainingExp.setText(String.valueOf(train.getExp()));
+                database.saveStats(fight.playerdata.getWins(), playerData.getUsername());
                 startButton.setVisible(true);
             }
             updateButton.setVisible(false);
@@ -774,11 +785,10 @@ public class LoginJframe extends JFrame {
         easyBot.setText("Easy");
         easyBot.setPreferredSize(new java.awt.Dimension(43, 43));
         easyBot.addActionListener((java.awt.event.ActionEvent evt) -> {
-            this.SelectionJPanel.hide();
-            this.hide();
             fight.setBotLevel(1);
             fight.Player = getCharacter();
             fight.fight();
+            playerData.character = character;
 
         });
 
@@ -786,11 +796,11 @@ public class LoginJframe extends JFrame {
         moderateBot.setText("Moderate");
         moderateBot.setPreferredSize(new java.awt.Dimension(43, 43));
         moderateBot.addActionListener((java.awt.event.ActionEvent evt) -> {
-            this.SelectionJPanel.hide();
-            this.hide();
+
             fight.setBotLevel(2);
             fight.Player = getCharacter();
             fight.fight();
+            playerData.character = character;
 
         });
 
@@ -798,11 +808,11 @@ public class LoginJframe extends JFrame {
         hardBot.setText("Hard");
         hardBot.setPreferredSize(new java.awt.Dimension(43, 43));
         hardBot.addActionListener((java.awt.event.ActionEvent evt) -> {
-            this.SelectionJPanel.hide();
-            this.hide();
+
             fight.setBotLevel(3);
             fight.Player = getCharacter();
             fight.fight();
+            playerData.character = character;
 
         });
 
@@ -810,24 +820,22 @@ public class LoginJframe extends JFrame {
         superHardBot.setText("Superhard");
         superHardBot.setPreferredSize(new java.awt.Dimension(43, 43));
         superHardBot.addActionListener((java.awt.event.ActionEvent evt) -> {
-            this.SelectionJPanel.hide();
-            this.hide();
+
             fight.setBotLevel(4);
             fight.Player = getCharacter();
             fight.fight();
-
+            playerData.character = character;
         });
 
         bossBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         bossBot.setText("Boss");
         bossBot.setPreferredSize(new java.awt.Dimension(43, 43));
         bossBot.addActionListener((java.awt.event.ActionEvent evt) -> {
-            this.SelectionJPanel.hide();
-            this.hide();
+
             fight.setBotLevel(5);
             fight.Player = getCharacter();
             fight.fight();
-
+            playerData.character = character;
         });
 
         selectionQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
@@ -835,6 +843,8 @@ public class LoginJframe extends JFrame {
         selectionQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
             Object source = evt.getSource();
             if (source == selectionQuit) {
+                System.out.println(playerData.getWins());
+                database.saveStats(fight.playerdata.getWins(), playerData.getUsername());
                 System.exit(0);
             }
         });
@@ -926,7 +936,7 @@ public class LoginJframe extends JFrame {
     }
 
     public static void main(String[] args) {
-        LoginJframe n = new LoginJframe();
+        GUI n = new GUI();
         n.loginInit();
     }
 
@@ -957,4 +967,5 @@ public class LoginJframe extends JFrame {
     public void setReset(boolean reset) {
         this.reset = reset;
     }
+
 }
