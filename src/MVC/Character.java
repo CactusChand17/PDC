@@ -13,7 +13,7 @@ import java.util.HashMap;
  * @author manu2
  */
 public class Character extends Player{
-        //characterclasses class
+   //characterclasses class
     private CharacterClasses classes = new CharacterClasses();
     //hashmap of the chosen class for player
     private HashMap<String, Integer> playerClass = new HashMap();

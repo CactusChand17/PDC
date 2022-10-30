@@ -36,12 +36,15 @@ public class Fighting {
     Items items = new Items();
     //Random
     Random rand = new Random();
+    //database
     Database database = new Database();
+    //player data
     playerData playerdata = new playerData();
 
     //sets the orginal health of player
     int orginalHealth = Player.getHealth();
 
+    //botlevel
     private int botLevel;
 
     public static void main(String[] args) {
@@ -51,13 +54,11 @@ public class Fighting {
 
     public void fight() {
         //sets bots up
-        //Player = menu.getCharacter();
-        //menu.setCharacter(Player);
         moderate.moderateBot();
         hard.hardBot();
         superhard.grandMasterBot();
         finalboss.FinalBoss();
-        //setBotLevel(1);
+        //gets the botlevel to choose difficulty
         switch (getBotLevel()) {
             case 1:
                 checker();
@@ -110,18 +111,23 @@ public class Fighting {
         //tells name and difficulty of boss
         System.out.println("Fighting Easy Enemy");
         System.out.println(easy.getName());
+        //Fighting menu GUI
         FightingMenu fightingMenu = new FightingMenu();
         fightingMenu.setVisible(true);
         fightingMenu.pack();
         fightingMenu.setLocationRelativeTo(null);
 
+        //sets the health of player and bot
         fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
         fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+        //attack 1 actionlistener
         fightingMenu.getAttack1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //checks for items
                 warmogs();
                 fairy();
+                //checks player class and does damage based on player class
                 if (Player.getPlayerClass() == Player.getClasses().Mage()) {
                     Integer damage = (Integer) Player.getClasses().Mage().get("Neutral");
                     easy.setHealth(easy.getHealth() - damage);
@@ -133,15 +139,24 @@ public class Fighting {
                     Integer damage = (Integer) Player.getClasses().Warrior().get("Neutral");
                     easy.setHealth(easy.getHealth() - damage);
                 }
+                //resets the text for both health
                 fightingMenu.getBotHealth().setText(String.valueOf(easy.getHealth()));
+                //checks the bot health, if it is above 0 then bot does damage
                 if (easy.getHealth() > 0) {
                     Player.setHealth(Player.getHealth() - easy.getDamage());
                 }
+                //resets the text for player health
                 fightingMenu.getHealth().setText(String.valueOf(Player.getHealth()));
+                //checks player health
+                //if the player health is lower than or equal to zero quit and show that game is lost
+                //save stats
                 if (Player.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You Lose", "You Lose", 2);
                     database.saveStats(playerdata.getWins(), playerdata.getUsername());
                     System.exit(0);
+                   //else player is greater than 0 then the player wins and sets the wins to +1
+                   //adds player stats
+                   //hides menu
                 } else if (easy.getHealth() <= 0) {
                     JOptionPane.showMessageDialog(fightingMenu.getRootPane(), "You win", "You win", 2);
                     playerdata.setWins(playerdata.getWins() + 1);
@@ -151,7 +166,8 @@ public class Fighting {
                 }
             }
         });
-
+        
+        //same but repeated for attack2 actionlistener
         fightingMenu.getAttack2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -185,7 +201,8 @@ public class Fighting {
                 }
             }
         });
-
+        
+        //same but repeated for attack3 actionlistener
         fightingMenu.getAttack3().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -219,7 +236,8 @@ public class Fighting {
                 }
             }
         });
-
+        
+        //same but repeated for attack4 actionlistener
         fightingMenu.getAttack4().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -255,6 +273,7 @@ public class Fighting {
             }
         });
 
+        //Menu button hides fighting menu
         fightingMenu.getFightingMenuBack().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -262,7 +281,7 @@ public class Fighting {
             }
 
         });
-
+        //quit button save stats then quits game
         fightingMenu.getFightingQuit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -271,7 +290,8 @@ public class Fighting {
             }
 
         });
-
+        
+        //reset button hides fighting menu
         fightingMenu.getFightingRestart().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

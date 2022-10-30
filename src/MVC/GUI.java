@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
  */
 public class GUI extends JFrame {
 
+    
     private final int trainingNumber = 10;
     private Character character = new Character();
     Character newCharacter = character;
@@ -114,7 +115,8 @@ public class GUI extends JFrame {
 
         Login.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         Login.setText("Login");
-
+        
+        //quit button for login
         Quit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         Quit.setText("Quit");
         Quit.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -126,7 +128,11 @@ public class GUI extends JFrame {
 
         });
 
+        //login button for login
+        //if the user does not enter all credientals then pop up menu appears    
         Login.addActionListener((java.awt.event.ActionEvent evt) -> {
+            //checks if reset was pressed
+            //if it was then sets the character to a new character
             if (reset == true) {
                 setCharacter(newCharacter);
                 setReset(false);
@@ -143,9 +149,10 @@ public class GUI extends JFrame {
                 } else if (playerData.getAge().trim().equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "Enter Age", "Empty Age", 2);
                 } else {
+                    //starts database up
+                    //goes to the next menu
                     database.setUp();
                     database.userExists(playerData.getUsername(), playerData.getPassword(), playerData.getAge());
-                    //start connect with database
                     this.jPanel1.hide();
                     this.classSelectionInit();
 
@@ -218,7 +225,6 @@ public class GUI extends JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        // this.add(jPanel1, BorderLayout.CENTER);
         setPreferredSize(getPreferredSize());
         this.setVisible(rootPaneCheckingEnabled);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -238,7 +244,8 @@ public class GUI extends JFrame {
 
         classLabel.setFont(new java.awt.Font("Impact", 0, 48)); // NOI18N
         classLabel.setText("Classes");
-
+        
+        //sets class to mage
         mageButton.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         mageButton.setText("Mage");
         mageButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -247,6 +254,7 @@ public class GUI extends JFrame {
             this.classesJPanel.hide();
         });
 
+        //sets class to rogue
         rogueButton.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         rogueButton.setText("Rogue");
         rogueButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -255,6 +263,7 @@ public class GUI extends JFrame {
             this.classesJPanel.hide();
         });
 
+        //sets class to warrior
         warriorButton.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         warriorButton.setText("Warrior");
         warriorButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -263,6 +272,7 @@ public class GUI extends JFrame {
             this.classesJPanel.hide();
         });
 
+        //quit button for classes Menu
         classesQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         classesQuit.setText("Quit");
         classesQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -342,6 +352,7 @@ public class GUI extends JFrame {
         mainRestart = new javax.swing.JButton();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        //Fighting menu button
         Fighting.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         Fighting.setText("Fighting");
         Fighting.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -351,7 +362,8 @@ public class GUI extends JFrame {
                 this.MainMenuJPanel.hide();
             }
         });
-
+        
+        //Training menu Button
         Training.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         Training.setText("Training");
         Training.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -363,6 +375,7 @@ public class GUI extends JFrame {
             }
         });
 
+        //Stats menu button
         CheckStats.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         CheckStats.setText("Stats");
         CheckStats.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -379,6 +392,7 @@ public class GUI extends JFrame {
             }
         });
 
+        //Quit Button
         mainMenuQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         mainMenuQuit.setText("Quit");
         mainMenuQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -389,6 +403,7 @@ public class GUI extends JFrame {
             }
         });
 
+        //Restart Button
         mainRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         mainRestart.setText("Restart");
         mainRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -489,6 +504,7 @@ public class GUI extends JFrame {
         StatsLabel.setFont(new java.awt.Font("Impact", 0, 48)); // NOI18N
         StatsLabel.setText("Stats");
 
+        //Restart button
         statsRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         statsRestart.setText("Restart");
         statsRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -497,6 +513,7 @@ public class GUI extends JFrame {
             this.StatsJPanel.hide();
         });
 
+        //Menu button
         menuBackStats.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         menuBackStats.setText("Menu");
         menuBackStats.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -505,6 +522,7 @@ public class GUI extends JFrame {
             this.StatsJPanel.hide();
         });
 
+        //Quit button
         statsQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         statsQuit.setText("Quit");
         statsQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -628,6 +646,7 @@ public class GUI extends JFrame {
         TrainingLabel.setFont(new java.awt.Font("Impact", 0, 48)); // NOI18N
         TrainingLabel.setText("Training");
 
+        //start button which starts the training as a thread
         startButton.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         startButton.setText("Start");
         startButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -649,6 +668,7 @@ public class GUI extends JFrame {
             updateButton.setVisible(true);
         });
 
+        //Quit button
         trainingQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         trainingQuit.setText("Quit");
         trainingQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -665,6 +685,8 @@ public class GUI extends JFrame {
         trainingExp.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         trainingExp.setText("");
 
+        //Update button appears when startbutton disapears and timer is done
+        //updates exp
         updateButton.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         updateButton.setText("Update");
         updateButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -677,6 +699,7 @@ public class GUI extends JFrame {
             updateButton.setVisible(false);
         });
 
+        //Menu button
         trainingMenuBack.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         trainingMenuBack.setText("Menu");
         trainingMenuBack.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -684,6 +707,7 @@ public class GUI extends JFrame {
             this.TrainingJPanel.hide();
         });
 
+        //Restart Button
         trainingRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         trainingRestart.setText("Restart");
         trainingRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -781,6 +805,8 @@ public class GUI extends JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        //Easy Bot fight button
+        //After fight it sets new data into character
         easyBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         easyBot.setText("Easy");
         easyBot.setPreferredSize(new java.awt.Dimension(43, 43));
@@ -792,6 +818,8 @@ public class GUI extends JFrame {
 
         });
 
+        //Moderate Bot fight button
+        //After fight it sets new data into character
         moderateBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         moderateBot.setText("Moderate");
         moderateBot.setPreferredSize(new java.awt.Dimension(43, 43));
@@ -803,7 +831,9 @@ public class GUI extends JFrame {
             playerData.character = character;
 
         });
-
+        
+        //Hard Bot fight button
+        //After fight it sets new data into character
         hardBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         hardBot.setText("Hard");
         hardBot.setPreferredSize(new java.awt.Dimension(43, 43));
@@ -816,6 +846,8 @@ public class GUI extends JFrame {
 
         });
 
+        //Super hard Bot fight button
+        //After fight it sets new data into character
         superHardBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         superHardBot.setText("Superhard");
         superHardBot.setPreferredSize(new java.awt.Dimension(43, 43));
@@ -827,6 +859,8 @@ public class GUI extends JFrame {
             playerData.character = character;
         });
 
+        //Boss Bot fight button
+        //After fight it sets new data into character
         bossBot.setFont(new java.awt.Font("Impact", 0, 18)); // NOI18N
         bossBot.setText("Boss");
         bossBot.setPreferredSize(new java.awt.Dimension(43, 43));
@@ -837,7 +871,8 @@ public class GUI extends JFrame {
             fight.fight();
             playerData.character = character;
         });
-
+        
+        //Quit button
         selectionQuit.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         selectionQuit.setText("Quit");
         selectionQuit.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -849,6 +884,7 @@ public class GUI extends JFrame {
             }
         });
 
+        //Restart Button
         selectionRestart.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         selectionRestart.setText("Restart");
         selectionRestart.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -857,6 +893,7 @@ public class GUI extends JFrame {
             this.SelectionJPanel.hide();
         });
 
+        //Menu button
         selectionMenuBack.setFont(new java.awt.Font("Impact", 0, 12)); // NOI18N
         selectionMenuBack.setText("Menu");
         selectionMenuBack.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -931,14 +968,7 @@ public class GUI extends JFrame {
         pack();
     }
 
-    public void FightingMenuInit() {
-
-    }
-
-    public static void main(String[] args) {
-        GUI n = new GUI();
-        n.loginInit();
-    }
+ 
 
     /**
      * @return the character

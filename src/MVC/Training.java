@@ -14,22 +14,26 @@ import java.util.Scanner;
 
 public class Training extends Character implements Runnable{  
     
+
     private final int num;
     private int finalNumber;
+    //takes input of number
     public Training(int i) {
         this.num = i;
     }
 
+    
     @Override
     public void run() {
+        //standard for loop
         for (int j = 0; j <= this.num; j++) {
 
-            
+            //sets final number 
             finalNumber = j;
         }
     }
     
-    
+    //sets exp to current exp + the final number
     public void trainPlayer()
     {
         setExp(getExp()+finalNumber);
